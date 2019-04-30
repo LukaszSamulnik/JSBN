@@ -1,0 +1,37 @@
+
+@mixin mainPadding {padding: 0 $padding576};
+
+
+@mixin singleBreakpoint ($breakpoint, $prop, $val ){
+  @media screen and (max-width: $breakpoint *1px) {#{$prop}: calc((#{$val} / (#{$breakpoint} * 2) ) * 100vw); };
+};
+
+@mixin multiBreakPoint($list, $prop, $val){
+  @each $item in $list {
+  
+    @include singleBreakpoint($item, $prop, $val)
+  }
+}
+
+
+@mixin formBorder{
+  border-bottom: 1px solid $grey;
+  
+}
+  
+  @mixin smallText {
+   
+    color: $grey;
+    font-size: calc(#{$bookTitleFontSize} * 0.74);
+    letter-spacing: -0.02rem;
+    line-height: 1.15;
+    font-style: italic;
+    margin-bottom: 0;
+  }
+  
+  @mixin bookdetailsName{
+ 
+  display: inline-block;
+      width: 50%;
+      text-align: right;
+  }
