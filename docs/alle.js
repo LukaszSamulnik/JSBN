@@ -1,4 +1,4 @@
-"use strict";
+
 
 function renderBooks() {
     console.log('render');
@@ -9,7 +9,6 @@ function renderBooks() {
         booksContainer: document.getElementById('booksContainer'),
         pageQueryInput: document.getElementById('pageQueryInput'),
         radio: Array.from(document.getElementById('radioInputs').getElementsByTagName('input')),
-        //tak chodzi pod edge wymuszone
         noBooksScreen: document.getElementById('noBooksModal'),
         noBooksScreenContent: document.getElementById('noBooksModal-content'),
         noBooksScreenCloseButton: document.getElementById('closeNoBooksScreen'),
