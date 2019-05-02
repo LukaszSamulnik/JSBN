@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8">
     <meta lang="pl">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Książki o Javascript</title>
-  <script src="./modernizr-custom.js"></script>
-  <script src="./es6-shim.js"></script>
-  <script crossorigin="anonymous" src="https://polyfill.io/v3/polyfill.min.js?features=Promise.prototype.finally%2CArray.from"></script>
-  <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:700" rel="stylesheet">
-  <link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/cooper-hewitt" type="text/css" />
-  <link rel="Stylesheet" href="./styles/style.css">
-  
+    <script src="./modernizr-custom.js"></script>
+    <script src="./es6-shim.js"></script>
+    <script crossorigin="anonymous"
+        src="https://polyfill.io/v3/polyfill.min.js?features=Promise.prototype.finally%2CArray.from"></script>
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:700" rel="stylesheet">
+    <link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/cooper-hewitt" type="text/css" />
+    <link rel="Stylesheet" href="./styles/style.css">
+
 </head>
 
 <body class = 'fadein'>
@@ -51,7 +51,7 @@
 
 <aside id="myModal" class="myModal"> 
     <div id = myModal-content class="myModal__content">
-    
+  
         
     </div>  
 </aside>
@@ -72,6 +72,8 @@
     <script src="./allegro.js"></script>
     <script src="./alle.js"></script>
     <script>
+console.log('sessionstorage', Modernizr.sessionstorage);
+console.log('eventl', Modernizr.eventlistener);
 
 if (Modernizr.eventlistener) {document.addEventListener("DOMContentLoaded", function () {return Modernizr.sessionstorage? renderBooks():noSession(); });} 
 else { elem.attachEvent("onDomContentLoaded", function () {return Modernizr.sessionstorage? renderBooks():noSession(); });}
