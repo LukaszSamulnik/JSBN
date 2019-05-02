@@ -72,7 +72,7 @@ function renderBooks() {
     restore: function restore(query) {
       if (query) {
         if (query.filter !== null) {
-          myPage.pageQueryInput = query.filter;
+          myPage.pageQueryInput.value = query.filter;
         }
 
         if (query.sort !== null) {

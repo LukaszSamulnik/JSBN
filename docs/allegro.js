@@ -62,7 +62,7 @@ var form = {
 restore: function(query){
     
     if (query) {if (query.filter !== null) 
-                        {myPage.pageQueryInput = query.filter;}
+                        {myPage.pageQueryInput.value = query.filter;}
                 if (query.sort !== null) 
                         {const sortInput = document.getElementById(query.sort); sortInput.checked = true; }
     }else{}
