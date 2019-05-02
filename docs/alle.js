@@ -1,9 +1,9 @@
 
 
-function renderBooks() {
-    console.log('render');
-    console.log(document.getElementById('booksContainer'));
-    console.log(document.getElementById('pageQueryInput')); // myPage  creates variable storing some important nodes that are built with HTML (and not rendered by this function )and therefore can be determined immy after load event
+function noSession() {
+   
+   
+    // myPage  creates variable storing some important nodes that are built with HTML (and not rendered by this function )and therefore can be determined immy after load event
 
     var myPage = {
         booksContainer: document.getElementById('booksContainer'),
@@ -17,15 +17,17 @@ function renderBooks() {
 
     };
 
-    function save(label, obj) {
+    function save(label, obj) {if(Modernizr.sessionstorage){
         sessionStorage.setItem(label, JSON.stringify(obj));
     }
-
+    }
     ;
 
-    function load(lab) {
-        var x = JSON.parse(sessionStorage.getItem(lab));
-        return x;
+
+
+    function load(lab) {if(Modernizr.sessionstorage){
+        const x = JSON.parse(sessionStorage.getItem(lab));
+        return x;}
     }
 
     ; //============================================= AUTHOR'S NAME OPERATIONS ===============================================================
@@ -64,7 +66,8 @@ function renderBooks() {
             return queries === null ? objects : sort(filter(objects, queries.filter), queries.sort);
         },
         get: function get() {
-            return this.areInStorage() ? load("localBooks") : localBooks;
+            if (Modernizr.sessionstorage){return this.areInStorage() ? load("localBooks") : this.fromRemote;}
+            else {return this.fromRemote};
         } //========================================== FORM OPERATIONS ===================================================================
 
     };
@@ -81,19 +84,17 @@ function renderBooks() {
                     sortInput.checked = true;
                 }
             } else {
-                console.log('empty query');
+               
             }
         },
         //-- grabs and returns form content
         getContent: function getContent() {
             var Queries = {}; //initiates empty object for results
-
             var filteredRadio = myPage.radio.filter(function (element) {
                 return element.checked ? true : false;
             }); //gets checked radiobutton if any
 
-            Queries.filter = myPage.pageQueryInput.value ? myPage.pageQueryInput.value : null; //gets content of text input, im empty takes null
-
+            Queries.filter = ((myPage.pageQueryInput.value) ? (myPage.pageQueryInput.value) : null) //gets content of text input, im empty takes null
             Queries.sort = filteredRadio.length > 0 ? filteredRadio[0].value : null; // adds to object only checked radio
 
             return Queries;
@@ -127,11 +128,10 @@ function renderBooks() {
             if (ev.keyCode === 13) {
                 event.preventDefault();
 
-                if (shouldUpdate()) {
-                    query.store();
+               
                     var preparedBooks = books.process(form.getContent(), books.get());
                     createContent(preparedBooks); //if change in form newly prepared content is displayed;
-                }
+                
             }
         },
         preventsNonNumbersOnTextInput: function preventsNonNumbersOnTextInput(e) {
@@ -143,7 +143,7 @@ function renderBooks() {
             }
         },
         changeInRadios: function changeInRadios() {
-            query.store();
+           
             var preparedBooks = books.process(form.getContent(), books.get()); //if change in form basic books are processed inline with current queries
 
             createContent(preparedBooks); //if change in form newly prepared content is displayed;
@@ -177,17 +177,15 @@ function renderBooks() {
     } //===========================
     // Here we get info whether there are books in session storage. 
     //If so we continue working with them, otherwise we must fetch them
-
-
-    if (books.areInStorage()) {
-        workWithLocalResources();
-    } else {
+        window.alert("ta przeglądarka nie obsługuje SessionStorage, w związku z tym funkcjonowanie strony będzie ograniczone") 
         workWithRemoteResources();
-    } //that function fetches data but next steps are like with local data
+    
+
+    //that function fetches data but next steps are like with local data
 
 
     function workWithRemoteResources() {
-        console.log('remoteResources');
+        
         fetch('https://api.myjson.com/bins/amapk').then(function (response) {
             return response.json();
         }).catch(function (error) {
@@ -195,9 +193,8 @@ function renderBooks() {
         }).then(function (json) {
             books.fromRemote = json; //localBooks receives what is loaded from remote source
 
-            console.log('booksfromremote', books.fromRemote);
-            books.store(books.fromRemote); //store books
-
+           
+           
             createContent(books.fromRemote); //prepareShowModal();//mounts handler that will display image modal on click 
             //mountHandlersOnForm();//mounts handlers that will control form
 
@@ -205,23 +202,7 @@ function renderBooks() {
         });
     } //////////////////////////////////////////////////////////////////////end of then/////////////////////////////////
 
-
-    function workWithLocalResources() {
-        var queries = query.getFromStorage(); //takes queries from session storage
-
-        var temp = books.process(queries, books.get()); // performs filtration and searchon  books
-
-        createContent(temp); //creates and displays nods and content
-
-        form.restore(queries); //restores forms with storage content
-
-        mountHandlers();
-
-        if (Modernizr.sessionstorage) {
-            console.log(Modernizr.sessionstorage);
-        } else { // not-supported
-        }
-    } ////////////that is all as per function flow
+      ////////////that is all as per function flow
     ////////////////////here below are definitions of functions used above/////////////////////////////////
     /////////////////////////filtration////////////////////////////////////////////////////////////
 
@@ -241,6 +222,7 @@ function renderBooks() {
     }
 
     function sort(objects, query) {
+     
         if (query === null || objects.length === 0) {
             return objects;
         } //if there is no treshold it returns non - modifed argument
@@ -262,7 +244,8 @@ function renderBooks() {
                     return Number(reverseOrder(split(a))) - Number(reverseOrder(split(b)));
                 },
                 author: function author(a, b) {
-                    return name.getSurname(a.author.toLowerCase()) > name.getSurname(b.author.toLowerCase()) ? true : false;
+                   
+                    return name.getSurname(a.author.toLowerCase()) > name.getSurname(b.author.toLowerCase()) //? true : false;
                 }
             };
             objects.sort(comparator[query]);
@@ -306,7 +289,7 @@ function renderBooks() {
 
 
     function createContent(items) {
-        console.log('createcontent'); //removes event listeners before removes nodes (see below) to prevent possible memory leakage
+        //removes event listeners before removes nodes (see below) to prevent possible memory leakage
 
         if (myPage.booksContainer.hasChildNodes()) {
             var nodes = Array.from(myPage.booksContainer.getElementsByClassName('book__cover'));
@@ -354,7 +337,7 @@ function renderBooks() {
             element.checked = false;
         }); // clears radios
 
-        query.storeEvenIfEmpty();
+        //query.storeEvenIfEmpty();
 
         if (!isEmpty) {
             createContent(books.get());

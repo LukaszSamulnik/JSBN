@@ -1,8 +1,10 @@
 
 function renderBooks(){
-console.log('render');
-console.log(document.getElementById('booksContainer'));
-console.log(document.getElementById('pageQueryInput'));
+console.log ('sessionstorage', Modernizr.sessionstorage);
+
+
+
+
 // myPage  creates variable storing some important nodes that are built with HTML (and not rendered by this function )and therefore can be determined immy after load event
 var myPage ={ 
     booksContainer: document.getElementById('booksContainer'),
@@ -49,7 +51,7 @@ const name ={
         areInStorage:  ()=>{return load('localBooks')? true: false}, //checks whether books are in session storage
         store: (books)=>{save('localBooks', books);}, //save books to session storage
         process: function(queries, objects){return(queries === null)? objects : sort(filter(objects, queries.filter), queries.sort); },
-        get:function(){return (this.areInStorage())? load("localBooks"): localBooks},
+        get:function(){return (this.areInStorage())? load("localBooks"): this.fromRemote},
 
     }
     
@@ -63,7 +65,7 @@ restore: function(query){
                         {myPage.pageQueryInput = query.filter;}
                 if (query.sort !== null) 
                         {const sortInput = document.getElementById(query.sort); sortInput.checked = true; }
-    }else{console.log('empty query')}
+    }else{}
 },
 //-- grabs and returns form content
 getContent: function(){
@@ -165,13 +167,13 @@ if (books.areInStorage()) {workWithLocalResources()} else {workWithRemoteResourc
 
 //that function fetches data but next steps are like with local data
 function workWithRemoteResources() {
-console.log('remoteResources');
+
     fetch('https://api.myjson.com/bins/amapk')
       .then(response => response.json())
       .catch(error => alert('Wystąpił problem z połączeniem nr.', error, 'Spróbuj ponownie później'))
       .then(json => {
 books.fromRemote = json;//localBooks receives what is loaded from remote source
-console.log('booksfromremote', books.fromRemote);
+
 books.store(books.fromRemote);//store books
 createContent(books.fromRemote);
 //prepareShowModal();//mounts handler that will display image modal on click 
@@ -187,12 +189,6 @@ const temp = books.process(queries, books.get()); // performs filtration and sea
 createContent(temp);//creates and displays nods and content
 form.restore(queries);//restores forms with storage content
 mountHandlers();
-
-if (Modernizr.sessionstorage) {
-    console.log (Modernizr.sessionstorage);
-  } else {
-    // not-supported
-  }
 
 
 }
@@ -294,8 +290,6 @@ function showModal (ev){
     }
 
 
-    
-
 ///////////////////////////////////////that functions should create content
 function createContent (items){
     console.log('createcontent');
@@ -353,3 +347,5 @@ function addEvent(evnt, elem, func) {
  }
 
 }
+
+
