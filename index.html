@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="./modernizr-custom.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:700" rel="stylesheet">
+    <link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/cooper-hewitt" type="text/css" />
+    <link rel="Stylesheet" href="./styles/style.css">
+    <title>Document</title>
+</head>
+<body>
+    <noscript>Sorry, your browser does not support JavaScript!</noscript>
+
+    <header>
+        <h1 class='header'>JS’owe książki</h1>
+    </header>
+    <main>
+        <aside>
+            <form id = 'queryForm' name = 'input' >
+                <h2>Sortuj po</h2>
+                <ul id='radioInputs'>
+                    <li><input id ='pages' name = 'sort' type="radio" value ='pages'> ilości stron</li>
+                    <li><input id = 'releaseDate'  name = 'sort' type="radio" value ='releaseDate'> dacie wydania</li>
+                    <li><input id = 'author' name = 'sort' type="radio" value ='author'> nazwisku autora</li> 
+                </ul>
+                <h2><span>Pokaż tylko</span></h2>
+                <ul id='textInput' data-tooltip = 'Nacisnij ENTER aby wyszukać' >
+                    <li>Powyżej <input data-tooltip = 'Naciśnij ENTER aby wyszukać' pattern="[0-9]+" class = 'pageQueryInput' name ='textInput' id='pageQueryInput' type="text"> stron</li>
+                </ul>
+                <button id ='resetButton' class="resetButton hvr-pulse-grow" type ='reset'  >Wyczyść</button>
+            </form>
+        </aside>
+
+        <section>
+            <ol id='booksContainer'>
+
+            </ol>
+        </section>
+
+        <aside class = 'aside-right'>
+
+        </aside>
+    </main>
+
+<aside id = "myModal" class="myModal" style="display: none"> 
+   
+</aside>
+
+<aside id="noBooksModal" class="myModal" style="display: none">
+  
+</aside>
+
+    <footer>
+
+    </footer>   
+<script src= './script.js'></script>
+</body>
+</html>

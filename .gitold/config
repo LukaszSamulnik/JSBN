@@ -1,0 +1,13 @@
+[core]
+	repositoryformatversion = 0
+	filemode = false
+	bare = false
+	logallrefupdates = true
+	symlinks = false
+	ignorecase = true
+[remote "JSBN4P"]
+	url = git@github.com:Kiszuriwalilibori/JSBN4P.git
+	fetch = +refs/heads/*:refs/remotes/JSBN4P/*
+[gui]
+	wmstate = normal
+	geometry = 893x435+104+104 175 196

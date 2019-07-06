@@ -1,0 +1,3 @@
+0000000000000000000000000000000000000000 c2a807117f511a8752923d464415fd6e954e5595 Kiszuriwalilibori <kiszuriwalilibori@poczta.onet.pl> 1562256752 +0200	commit (initial): initial commit
+c2a807117f511a8752923d464415fd6e954e5595 2f08f7881a2fbbba3c3dc332007f40c16cfa294d Kiszuriwalilibori <kiszuriwalilibori@poczta.onet.pl> 1562315845 +0200	commit: old commented code removed, old files removed
+2f08f7881a2fbbba3c3dc332007f40c16cfa294d 0f15755e41e97b5ea7ce30335dfe7461095fb8f3 Kiszuriwalilibori <kiszuriwalilibori@poczta.onet.pl> 1562425702 +0200	commit: better naming, few getters added
