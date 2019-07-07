@@ -236,18 +236,18 @@ class Books {
 
   get data() {
     const data = {};
-    data.basicBooks = this.basicBooks;
-    data.processedBooks = this.processedBooks;
-    data.query = this.query;
+    data.basicBooks = this.basicBooks.slice();
+    data.processedBooks = this.processedBooks.slice();
+    data.query = Object.assign({}, this.query);
     return data;
   }
 
   get processedItems() {
-    return this.processedBooks;
+    return this.processedBooks.slice();
   }
 }
 
-//= ===========================================class Model======================================================
+//= ================================class Model======================================================
 //= Model in MVC sense, accepts argument being instance of above Books and encapsultes it with extra methods
 class Model extends EventEmitter {
   constructor(data, location) {
