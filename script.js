@@ -116,22 +116,27 @@ class nodeMaker {
     }
   }
 
-
   removeNode() {
     while (this.location.hasChildNodes()) {
       this.location.removeChild(this.location.lastChild);
     }
   }
 
-  attachInnerHTML(x) { x.innerHTML = this.config.innerHTMLcreator(); }
+  attachInnerHTML(x) {
+    x.innerHTML = this.config.innerHTMLcreator();
+  }
 
-  appendNode() { this.location.appendChild(this.el); }
+  appendNode() {
+    this.location.appendChild(this.el);
+  }
 }
 //= ======================================================= class Modal ================================
 // creates modal
 class Modal extends nodeMaker {
   create() {
-    if (this.location.style.display === 'none') { this.location.style.display = 'flex'; }
+    if (this.location.style.display === 'none') {
+      this.location.style.display = 'flex';
+    }
     const el = this.createNode();
     el.innerHTML = this.config.innerHTMLcreator();
     this.appendNode(el);
@@ -139,7 +144,9 @@ class Modal extends nodeMaker {
 
   clear() {
     this.removeNode();
-    if (this.location.style.display === 'flex') { this.location.style.display = 'none'; }
+    if (this.location.style.display === 'flex') {
+      this.location.style.display = 'none';
+    }
   }
 }
 //= ======================================================= class Section ===================================
@@ -173,7 +180,10 @@ class Section extends nodeMaker {
 class Books {
   constructor(dane, func) {
     this.func = func;
-    this.emptyQuery = { filter: null, sort: null };
+    this.emptyQuery = {
+      filter: null,
+      sort: null,
+    };
     if (!Array.isArray(dane)) {
       this.basicBooks = dane.basicBooks;
       this.processedBooks = dane.processedBooks;
@@ -185,9 +195,13 @@ class Books {
     }
   }
 
-  clearQuery() { this.query = this.emptyQuery; }
+  clearQuery() {
+    this.query = this.emptyQuery;
+  }
 
-  updateQuery(newConditions) { this.query = newConditions; }
+  updateQuery(newConditions) {
+    this.query = newConditions;
+  }
 
   filtrate() {
     const filter = Number(this.query.filter);
@@ -222,8 +236,7 @@ class Books {
           return Number(reverseOrder(split(a))) - Number(reverseOrder(split(b)));
         },
 
-        author: (a, b) => this.func.getSurname(a.author.toLowerCase()) > this.func.getSurname(b.author.toLowerCase())
-        ,
+        author: (a, b) => this.func.getSurname(a.author.toLowerCase()) > this.func.getSurname(b.author.toLowerCase()),
       };
 
       this.processedBooks.sort(comparator[this.query.sort]);
@@ -366,13 +379,13 @@ class View extends EventEmitter {
 
   update(data) {
     this.BooksSection.clear();
-    const processedData = data.processedBooks;
-    this.BooksSection = new Section(processedData, this.nodes.booksContainer, config.booksSection);
+
+    this.BooksSection = new Section(data.processedBooks, this.nodes.booksContainer, config.booksSection);
+
     this.BooksSection.create();
     this.nodes.pageQueryInput.value = data.query.filter;
     this.mountModalTriggers();
   }
-
 
   mountModalTriggers() {
     const Images = Array.from(document.getElementsByClassName('book__cover'));
@@ -415,7 +428,7 @@ class Controller {
   AltR(ev) {
     ev.stopPropagation();
     ev.preventDefault();
-    console.log(ev);
+
     if (!ev) ev = window.event;
     if (ev.isComposing || ev.keyCode === 229) {
       return;
