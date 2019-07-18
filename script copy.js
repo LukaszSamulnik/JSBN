@@ -1,66 +1,64 @@
-/* eslint-disable max-len */
-/* global Modernizr */
-/* eslint no-underscore-dangle: ["error", { "allowAfterThis": true }] */
 
+/* eslint no-underscore-dangle: ["error", { "allowAfterThis": true }] */
 
 //  Przy montowaniu handlerów do instancji powinna się tworzyć jakaś ich tablica, po której je by można potem udmontować
 
 // właściwie modal jest implementowany przez HTML 5.2 można by skorzystać
 
 
-const UserFunctions = (function () {
-  return {
-    name: {
-      getSurname: function getSurname(str) {
-        const lastspace = function lastspace(x) {
-          return x.lastIndexOf(" ");
-        };
+//= =====================================================global functions =========================================================================
+//= some functions that are used by other classes
+var globalFunctions = globalFunctions || {};
 
-        return lastspace(str) === -1 ? str : str.slice(lastspace(str) + 1);
-      },
-      getFirstname: function getFirstname(str) {
-        const lastspace = function lastspace(y) {
-          return y.lastIndexOf(" ");
-        };
+globalFunctions.name = {
+  getSurname: function getSurname(str) {
+    const lastspace = function lastspace(x) {
+      return x.lastIndexOf(' ');
+    };
 
-        return lastspace(str) === -1 ? str : str.slice(0, lastspace(str));
-      },
-      processedFirstName: function processedFirstName(str) {
-        return `By ${this.getFirstname(str)}`;
-      },
-    },
-  };
-}());
+    return lastspace(str) === -1 ? str : str.slice(lastspace(str) + 1);
+  },
+  getFirstname: function getFirstname(str) {
+    const lastspace = function lastspace(y) {
+      return y.lastIndexOf(' ');
+    };
+
+    return lastspace(str) === -1 ? str : str.slice(0, lastspace(str));
+  },
+  processedFirstName: function processedFirstName(str) {
+    return `By ${this.getFirstname(str)}`;
+  },
+};
 
 
 // ========================================================== config objects ===================================================================
 // this object collects data taken by instantions of Modal and Section classes
-const config = {};
+var config = config || {};
 config.booksSection = {
-  type: "li",
-  classes: ["book"],
+  type: 'li',
+  classes: ['book'],
   attributes: {
-    itemtype: "http://schema.org/Book",
-    itemscope: "",
+    itemtype: 'http://schema.org/Book',
+    itemscope: '',
   },
   dataset: {
     number: null,
   },
   innerHTMLcreator: function createItem(bookObject, functionObj) {
-    return "\n <a class = 'book__cover'  data-href = ".concat(bookObject.cover.large, ">\n <img itemprop = 'image' class='book__cover__image fadein' src=").concat(bookObject.cover.small, ">\n                                    </a>\n                                    <div class='bookInfo'>\n                                        <div class='bookInfo__titleContainer'>\n                                            <p class= 'bookInfo__title' itemprop ='name'>").concat(bookObject.title, "</p>\n                                           \n                                            \n                                        </div>\n                                        <div class='book__details'>\n                                            <p itemprop ='author' class= \"book__details_author\"><span> ").concat(functionObj.processedFirstName(bookObject.author), "</span> ")
+    return "\n <a class = 'book__cover'  data-href = ".concat(bookObject.cover.large, ">\n <img itemprop = 'image' class='book__cover__image fadein' src=").concat(bookObject.cover.small, ">\n                                    </a>\n                                    <div class='bookInfo'>\n                                        <div class='bookInfo__titleContainer'>\n                                            <p class= 'bookInfo__title' itemprop ='name'>").concat(bookObject.title, "</p>\n                                           \n                                            \n                                        </div>\n                                        <div class='book__details'>\n                                            <p itemprop ='author' class= \"book__details_author\"><span> ").concat(functionObj.processedFirstName(bookObject.author), '</span> ')
       .concat(functionObj.getSurname(bookObject.author), "</p>\n <p itemprop ='datePublished'><span>Release Date:</span> ")
       .concat(bookObject.releaseDate, "</p>\n  <p itemprop = 'numberOfPages'><span>Pages:</span> ")
       .concat(bookObject.pages, "</p>\n <p itemprop ='discussionUrl'><span>Link:</span> <a href = ")
-      .concat(bookObject.link, ">shop</a></p>\n  </div>\n </div>\n    \n    \n  ");
+      .concat(bookObject.link, '>shop</a></p>\n  </div>\n </div>\n    \n    \n  ');
   },
-  extraFunction: UserFunctions.name,
+  extraFunction: globalFunctions.name,
 };
 config.noBooksModal = {
 
-  type: "div",
-  classes: ["noBooksModal__content"],
+  type: 'div',
+  classes: ['noBooksModal__content'],
   attributes: {
-    id: "noBooksModal-content",
+    id: 'noBooksModal-content',
   },
   innerHTMLcreator: function createItem() { return "<span id ='closeNoBooksScreen' class='noBooksModal__close'>&times;</span><div><span>Nie znaleziono przedmiotów </span><br><span>spełniających kryteria wyszukiwania</span></div>"; },
 };
@@ -68,13 +66,13 @@ config.noBooksModal = {
 
 config.modal = {
 
-  type: "div",
-  classes: ["myModal__content"],
+  type: 'div',
+  classes: ['myModal__content'],
   attributes: {
-    id: "myModal-content",
+    id: 'myModal-content',
   },
 
-  innerHTMLcreator: function createItem() { const src = (this.target).dataset.href; return "<span id ='close' class=\"myModal__close icon-circle-regular icon-times-solid \"> </span><img  class = 'myModal__image' src=".concat(src, "></img>"); },
+  innerHTMLcreator: function createItem() { const src = (this.target).dataset.href; return "<span id ='close' class=\"myModal__close icon-circle-regular icon-times-solid \"> </span><img  class = 'myModal__image' src=".concat(src, '></img>'); },
 };
 
 
@@ -101,12 +99,12 @@ class nodeMaker {
   constructor(location, cnfg) { this.location = location; this.config = cnfg; this.el = null; }
 
   createNode() {
-    if (this.config.hasOwnProperty("type")) { this.el = document.createElement(this.config.type); }
+    if (this.config.hasOwnProperty('type')) { this.el = document.createElement(this.config.type); }
 
-    if (this.config.hasOwnProperty("classes")) { this.config.classes.forEach(item => this.el.classList.add(item)); }
+    if (this.config.hasOwnProperty('classes')) { this.config.classes.forEach(item => this.el.classList.add(item)); }
 
-    this.setFromObject("attributes");
-    this.setFromObject("dataset");
+    this.setFromObject('attributes');
+    this.setFromObject('dataset');
     return this.el;
   }
 
@@ -132,12 +130,12 @@ class nodeMaker {
     this.location.appendChild(this.el);
   }
 }
-//= ======================================================= class Modal ===========
+//= ======================================================= class Modal ================================
 // creates modal
 class Modal extends nodeMaker {
   create() {
-    if (this.location.style.display === "none") {
-      this.location.style.display = "flex";
+    if (this.location.style.display === 'none') {
+      this.location.style.display = 'flex';
     }
     const el = this.createNode();
     el.innerHTML = this.config.innerHTMLcreator();
@@ -146,8 +144,8 @@ class Modal extends nodeMaker {
 
   clear() {
     this.removeNode();
-    if (this.location.style.display === "flex") {
-      this.location.style.display = "none";
+    if (this.location.style.display === 'flex') {
+      this.location.style.display = 'none';
     }
   }
 }
@@ -227,7 +225,7 @@ class Books {
         },
         releaseDate: function releaseDate(a, b) {
           const split = function split(x) {
-            return x.releaseDate.split("/");
+            return x.releaseDate.split('/');
           };
 
           const reverseOrder = function reverseOrder(z) {
@@ -275,7 +273,7 @@ class Model extends EventEmitter {
   saveToStorage() {
     if (this.storageAvailable) {
       sessionStorage.setItem(this.location, JSON.stringify(this.Books.data));
-      this.saveToStorage = () => {
+      this.saveToStorage = function () {
         sessionStorage.setItem(this.location, JSON.stringify(this.Books.data));
       };
     }
@@ -285,13 +283,13 @@ class Model extends EventEmitter {
     if (arguments.length === 0) {
       this.Books.clearQuery();
       this.saveToStorage();
-      this.emit("reset_filters");
+      this.emit('reset_filters');
     } else if (JSON.stringify(newFilters) === JSON.stringify(this.Books.query)) {} else {
       this.Books.updateQuery(newFilters);
       this.Books.processContent();
       this.saveToStorage();
-      if (!this.Books.processedItems.length > 0) { this.emit("no_books_found"); }
-      this.emit("updated", this.Books.data);
+      if (!this.Books.processedItems.length > 0) { this.emit('no_books_found'); }
+      this.emit('updated', this.Books.data);
     }
   }
 
@@ -304,10 +302,10 @@ class Model extends EventEmitter {
   }
 
   create(data) {
-    this.Books = new Books(data, UserFunctions.name);
+    this.Books = new Books(data, globalFunctions.name);
     this.Books.processContent();
     this.saveToStorage();
-    this.emit("loaded", this.Books.data);
+    this.emit('loaded', this.Books.data);
   }
 }
 //= ==============================================class View===================================================================
@@ -339,16 +337,16 @@ class View extends EventEmitter {
   }
 
   mountHandlers(nodes) {
-    nodes.resetButton.addEventListener("click", () => this.emit("reset_filters"));
+    nodes.resetButton.addEventListener('click', () => this.emit('reset_filters'));
 
-    nodes.form.addEventListener("change", () => {
-      this.emit("changed_radios", this.getFilters());
+    nodes.form.addEventListener('change', () => {
+      this.emit('changed_radios', this.getFilters());
     });
 
-    window.addEventListener("keyup", (e) => { e.preventDefault(); this.emit("any_key_pressed", e); }, false);
+    window.addEventListener('keyup', (e) => { e.preventDefault(); this.emit('any_key_pressed', e); }, false);
 
 
-    nodes.textInput.addEventListener("keydown", (e) => {
+    nodes.textInput.addEventListener('keydown', (e) => {
       const eventCode = e.keyCode;
 
       if ((e.keyCode < 48 || e.keyCode > 57 && e.keyCode < 96 || e.keyCode > 105) && e.keyCode !== 13 && e.keyCode !== 8) {
@@ -358,7 +356,7 @@ class View extends EventEmitter {
 
       if (eventCode === 13) {
         e.preventDefault();
-        this.emit("enter_pressed", this.getFilters());
+        this.emit('enter_pressed', this.getFilters());
       }
     });
     this.mountModalTriggers();
@@ -366,7 +364,7 @@ class View extends EventEmitter {
 
   showBooks() {
     this.BooksSection.clear().create();
-    this.emit("booksLoaded");
+    this.emit('booksLoaded');
     return this;
   }
 
@@ -375,8 +373,8 @@ class View extends EventEmitter {
     configCopy.target = x;
     this.Modal = new Modal(this.nodes.myModal, configCopy);
     this.Modal.create();
-    const close = document.getElementById("close"); // close jest u za mało specyficzne na wszelki wypadek coś bardziej specyficznego jako id
-    close.addEventListener("click", e => this.emit("modal_close_clicked", this.Modal));
+    const close = document.getElementById('close'); // close jest u za mało specyficzne na wszelki wypadek coś bardziej specyficznego jako id
+    close.addEventListener('click', e => this.emit('modal_close_clicked', this.Modal));
   }
 
   update(data) {
@@ -390,16 +388,16 @@ class View extends EventEmitter {
   }
 
   mountModalTriggers() {
-    const Images = Array.from(document.getElementsByClassName("book__cover"));
+    const Images = Array.from(document.getElementsByClassName('book__cover'));
     Images.forEach((element) => {
-      element.addEventListener("click", e => this.emit("image_clicked", e.currentTarget));
+      element.addEventListener('click', e => this.emit('image_clicked', e.currentTarget));
     });
   }
 
   showNoBooksModal() {
     this.noBooksModal = new Modal(this.nodes.noBooksScreen, config.noBooksModal);
     this.noBooksModal.create();
-    document.getElementById("closeNoBooksScreen").addEventListener("click", e => this.emit("no_books_modal_close_clicked", this.noBooksModal));
+    document.getElementById('closeNoBooksScreen').addEventListener('click', e => this.emit('no_books_modal_close_clicked', this.noBooksModal));
   }
 }
 
@@ -414,17 +412,17 @@ class Controller {
   }
 
   combineHandlers() {
-    view.on("changed_radios", x => model.update(x));
-    model.on("loaded", x => view.update(x));
-    model.on("updated", x => view.update(x));
-    view.on("any_key_pressed", x => this.AltR(x));
-    model.on("reset_filters", x => view.resetFilters(x));
-    view.on("reset_filters", x => view.resetFilters(x));
-    view.on("enter_pressed", x => model.update(x));
-    view.on("image_clicked", x => view.showBookModal(x));
-    view.on("modal_close_clicked", x => x.clear());
-    model.on("no_books_found", x => view.showNoBooksModal(x));
-    view.on("no_books_modal_close_clicked", x => x.clear());
+    view.on('changed_radios', x => model.update(x));
+    model.on('loaded', x => view.update(x));
+    model.on('updated', x => view.update(x));
+    view.on('any_key_pressed', x => this.AltR(x));
+    model.on('reset_filters', x => view.resetFilters(x));
+    view.on('reset_filters', x => view.resetFilters(x));
+    view.on('enter_pressed', x => model.update(x));
+    view.on('image_clicked', x => view.showBookModal(x));
+    view.on('modal_close_clicked', x => x.clear());
+    model.on('no_books_found', x => view.showNoBooksModal(x));
+    view.on('no_books_modal_close_clicked', x => x.clear());
   }
 
   AltR(ev) {
@@ -442,9 +440,9 @@ class Controller {
   }
 }
 
-//= =========== START===============
+//= =========== tu zaczyna się funkcja a kończą klasy===============
 
-window.onload = function () { initializer("localBooks", "https://api.myjson.com/bins/amapk"); };
+window.onload = function () { initializer('localBooks', 'https://api.myjson.com/bins/amapk'); };
 
 
 let model;
@@ -453,15 +451,15 @@ let controller;
 
 function initializer(storageLocation, remoteLocation) {
   const pageNodes = {
-    booksContainer: document.getElementById("booksContainer"),
-    pageQueryInput: document.getElementById("pageQueryInput"),
-    radio: Array.from(document.getElementById("radioInputs").getElementsByTagName("input")),
-    noBooksScreen: document.getElementById("noBooksModal"),
-    noBooksScreenContent: document.getElementById("noBooksModal-content"),
-    myModal: document.getElementById("myModal"),
-    form: document.getElementById("radioInputs"), //
-    textInput: document.getElementById("textInput"),
-    resetButton: document.getElementById("resetButton"), //
+    booksContainer: document.getElementById('booksContainer'),
+    pageQueryInput: document.getElementById('pageQueryInput'),
+    radio: Array.from(document.getElementById('radioInputs').getElementsByTagName('input')),
+    noBooksScreen: document.getElementById('noBooksModal'),
+    noBooksScreenContent: document.getElementById('noBooksModal-content'),
+    myModal: document.getElementById('myModal'),
+    form: document.getElementById('radioInputs'), //
+    textInput: document.getElementById('textInput'),
+    resetButton: document.getElementById('resetButton'), //
     resetFilters() {
       this.pageQueryInput.value = null;
       this.radio.forEach((element) => {

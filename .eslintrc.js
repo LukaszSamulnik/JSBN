@@ -1,7 +1,20 @@
 module.exports = {
-    "extends": "airbnb-base",
-    "parser": "babel-eslint",
+  env: {
+    browser: true,
+    es6: true,
+    node: true,
+  },
+  extends: 'airbnb-base',
+  globals: {
+    Atomics: 'readonly',
+    SharedArrayBuffer: 'readonly',
+  },
+  parserOptions: {
+    ecmaVersion: 2018,
+    sourceType: 'module',
+  },
+  rules: {
+  "semi": ["error", "always"],
+  "quotes": ["error", "double"]
+  },
 };
-parserOptions = { "ecmaVersion": 6 };
-env = {"browser": true};
-options ={ "allowAfterThis": true };
