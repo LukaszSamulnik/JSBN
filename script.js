@@ -1,4 +1,4 @@
-import UserFunctions from "./js_modules/userfunctions";
+
 /* eslint-disable max-len */
 /* global Modernizr */
 /* eslint no-underscore-dangle: ["error", { "allowAfterThis": true }] */
@@ -7,7 +7,7 @@ import UserFunctions from "./js_modules/userfunctions";
 //  Przy montowaniu handlerów do instancji powinna się tworzyć jakaś ich tablica, po której je by można potem udmontować
 
 // właściwie modal jest implementowany przez HTML 5.2 można by skorzystać
-/*
+
 const UserFunctions = (function () {
   return {
     name: {
@@ -32,7 +32,7 @@ const UserFunctions = (function () {
   };
 }());
 
-*/
+
 // ========================================================== config objects ===================================================================
 // this object collects data taken by instantions of Modal and Section classes
 const config = {};
